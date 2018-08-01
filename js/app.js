@@ -1,26 +1,59 @@
 // Element declaration
-const $catClicker1Element = $("#catClicker1");
-const $catClicker2Element = $("#catClicker2");
+const $catClickerElement = $("#catClicker");
 const $clickCounterElement = $("#clickCounter");
+const $catListULElement = $(".cat-list ul");
 
-const $catName1 = $("#catName1");
-const $catName2 = $("#catName2");
+
 
 // Other variables declaration
 let timesClicked = 0;
-const catName1 = "Piff";
-const catName2 = "Muggle";
+
+let catInfo = {
+    1: {
+        name: "piff",
+        image: "images/piff.jpg",
+        clicks: 0
+    },
+    2: {
+        name: "muggle",
+        image: "images/muggle.jpg",
+        clicks: 0
+    },
+    3: {
+        name: "albin",
+        image: "images/albin.jpg",
+        clicks: 0
+    },
+    4: {
+        name: "marcia",
+        image: "images/marcia.jpg",
+        clicks: 0
+    },
+    5: {
+        name: "olivia",
+        image: "images/olivia.jpg",
+        clicks: 0
+    }
+};
 
 $(document).ready(function() {
-    $catName1.html(catName1);
-    $catName2.html(catName2);
+    for(const cat in catInfo) {
+        $catListULElement.append(`<li><a href="#" data-cat-reference="${cat}">${catInfo[cat].name}</a></li>`)
+    }
+    $catClickerElement.attr("src", catInfo[1].image);
 });
 
-$catClicker1Element.click(function(){
-    timesClicked++;
-    $clickCounterElement.html(timesClicked);
+// Listeners
+$catListULElement.on("click", "li a", function(e) {
+    $targetCatReference = $(e.target).attr("data-cat-reference");
+    $catClickerElement.attr("src", catInfo[$targetCatReference].image);
+    $catClickerElement.attr("data-cat-reference", $targetCatReference);
+    $clickCounterElement.html(catInfo[$targetCatReference].clicks);
+
 });
-$catClicker2Element.click(function(){
-    timesClicked++;
-    $clickCounterElement.html(timesClicked);
+
+$catClickerElement.click(function(e) {
+    $targetCatReference = $(e.target).attr("data-cat-reference");
+    catInfo[$targetCatReference].clicks++;
+    $clickCounterElement.html(catInfo[$targetCatReference].clicks);
 });
